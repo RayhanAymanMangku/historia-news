@@ -12,7 +12,7 @@ export async function getNews(page: number): Promise<{ articles: Article[]; tota
         q: "bitcoin",
         apiKey: NEWS_API_KEY,
         page: page.toString(),
-        pageSize: "10", // Adjust the number of articles per page
+        pageSize: "10", // limit 
     });
 
     const res = await fetch(`https://newsapi.org/v2/everything?${queryParams}`);
@@ -25,10 +25,29 @@ export async function getNews(page: number): Promise<{ articles: Article[]; tota
     return { articles: data.articles, totalResults: data.totalResults };
 }
 
+
 export async function getTopHeadlines(): Promise<Article[]> {
     const queryParams = new URLSearchParams({
         country: "us",
         apiKey: NEWS_API_KEY,
+        language: "en",
+    });
+
+    const res = await fetch(`https://newsapi.org/v2/top-headlines?${queryParams}`);
+
+    if (!res.ok) {
+        throw new Error(`Failed to fetch top headlines: ${res.status} ${res.statusText}`);
+    }
+
+    const data: NewsResponse = await res.json();
+    return data.articles;
+}
+
+export async function getSourcesByCategory(category: string): Promise<Article[]> {
+    const queryParams = new URLSearchParams({
+        category,
+        apiKey: NEWS_API_KEY,
+        language: "en",
     });
 
     const res = await fetch(`https://newsapi.org/v2/top-headlines?${queryParams}`);

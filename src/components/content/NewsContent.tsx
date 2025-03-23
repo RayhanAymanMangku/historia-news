@@ -21,10 +21,10 @@ interface NewsContentCardProps {
 const NewsContentCard = ({ urlToImage, title, content, url, name, publishedAt, author }: NewsContentCardProps) => {
     return (
         <div className="w-[400px] mx-auto">
-            <Card className="overflow-hidden rounded-xl h-[560px] shadow-lg transition-all hover:shadow-xl pt-0 flex flex-col">
+            <Card className="overflow-hidden rounded-xl h-[560px] shadow-sm transition-all hover:shadow-xl pt-0 flex flex-col">
                 <div className="relative h-[192px] w-full overflow-hidden">
                     <Image
-                        src={urlToImage || "/images/logo.png"}
+                        src={urlToImage || "/images/articles.svg"}
                         alt="News thumbnail"
                         width={640}
                         height={192}
@@ -54,7 +54,7 @@ const NewsContentCard = ({ urlToImage, title, content, url, name, publishedAt, a
                 <CardFooter className="flex items-center justify-between pt-2 mt-auto">
                     <div className="flex items-center gap-2">
                         <Avatar className="h-8 w-8">
-                            <AvatarImage src="/placeholder.svg?height=40&width=40" alt="Author" />
+                            <AvatarImage alt="Author" />
                             <AvatarFallback>
                                 {author
                                     ?.split(" ")
@@ -70,7 +70,7 @@ const NewsContentCard = ({ urlToImage, title, content, url, name, publishedAt, a
                     </div>
                     <Link href={url}>
                         <Button variant="ghost" size="sm" className="gap-1 text-primary hover:text-primary/80">
-                            Baca selengkapnya <FaArrowRight className="h-4 w-4" />
+                            Read More<FaArrowRight className="h-4 w-4" />
                         </Button>
                     </Link>
                 </CardFooter>
