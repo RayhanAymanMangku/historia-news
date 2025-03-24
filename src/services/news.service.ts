@@ -12,7 +12,7 @@ export async function getNews(page: number): Promise<{ articles: Article[]; tota
         q: "bitcoin",
         apiKey: NEWS_API_KEY,
         page: page.toString(),
-        pageSize: "10", // limit 
+        pageSize: "10",
     });
 
     const res = await fetch(`https://newsapi.org/v2/everything?${queryParams}`);
@@ -55,6 +55,7 @@ export async function getSourcesByCategory(category: string): Promise<Article[]>
     if (!res.ok) {
         throw new Error(`Failed to fetch top headlines: ${res.status} ${res.statusText}`);
     }
+
 
     const data: NewsResponse = await res.json();
     return data.articles;

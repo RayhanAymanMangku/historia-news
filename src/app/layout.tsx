@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className="flex flex-col min-h-screen">
         <Navbar />
-        <main className="flex-grow px-30 py-14 w-full">
+        <main className="flex-grow px-28 py-14 w-full">
           {children}
         </main>
         <Footer />

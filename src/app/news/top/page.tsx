@@ -5,7 +5,7 @@ import { FaNewspaper } from 'react-icons/fa6';
 
 const TopPage = async () => {
     const articles = await getTopHeadlines();
-    if (!articles || articles.length === 0) {
+    if (!articles) {
         return <div className="text-center py-8">Belum ada berita</div>;
     }
 

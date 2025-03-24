@@ -20,14 +20,14 @@ interface NewsContentCardProps {
 
 const NewsContentCard = ({ urlToImage, title, content, url, name, publishedAt, author }: NewsContentCardProps) => {
     return (
-        <div className="w-[400px] mx-auto">
+        <div className="w-[380px] mx-auto">
             <Card className="overflow-hidden rounded-xl h-[560px] shadow-sm transition-all hover:shadow-xl pt-0 flex flex-col">
-                <div className="relative h-[192px] w-full overflow-hidden">
+                <div className="relative h-[200px] w-full overflow-hidden">
                     <Image
                         src={urlToImage || "/images/articles.svg"}
                         alt="News thumbnail"
                         width={640}
-                        height={192}
+                        height={200}
                         className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
                     />
                     <Badge className="absolute left-3 top-3 bg-primary text-primary-foreground">{name}</Badge>

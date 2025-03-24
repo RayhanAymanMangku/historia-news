@@ -6,12 +6,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // Mengizinkan semua hostname
+        hostname: '**',
         port: '',
         pathname: '**',
       },
     ],
-    // domains: ['example.com', 'another-domain.com'], // Jika ingin spesifik
   },
 };
 

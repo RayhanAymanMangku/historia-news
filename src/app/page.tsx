@@ -4,15 +4,24 @@ import SearchComponent from "@/components/custom/SearchNews";
 import { getNews } from "@/services/news.service";
 import React from "react";
 import { FaNewspaper } from "react-icons/fa6";
-export default async function Home({ searchParams }:
-  { searchParams: { [key: string]: string | string[] | undefined } }) {
 
-  const page = Number(searchParams.page) || 1;
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
+  const params = await Promise.resolve(searchParams);
+  const page = Number(params.page) || 1;
+
   const { articles, totalResults } = await getNews(page);
+
+  if (!articles || articles.length === 0) {
+    return <div className="text-center py-8">No news yet</div>;
+  }
 
   return (
     <>
-      <main className="w-full">
+      <main className="max-w-full">
         <div className="pb-8 w-full flex justify-between">
           <div className="flex items-center gap-4">
             <FaNewspaper className="h-6 w-6 text-black" />
@@ -34,15 +43,13 @@ export default async function Home({ searchParams }:
               publishedAt={article.publishedAt}
               author={article.author || ""}
             />
-
           ))}
         </div>
         <PaginationControls
           currentPage={page}
-          totalPages={totalResults / 10}
+          totalPages={Math.ceil(totalResults / 10)} // Ensure totalPages is rounded up
         />
       </main>
-
     </>
   );
 }

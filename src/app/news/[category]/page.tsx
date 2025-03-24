@@ -11,8 +11,14 @@ interface PageProps {
 }
 
 const NewsByCategoryPage = async ({ params }: PageProps) => {
-    const { category } = params;
+    const { category } = await Promise.resolve(params);
+
+    if (!category) {
+        return <div className="text-center py-8">Category not found</div>;
+    }
+
     const articles = await getSourcesByCategory(category);
+
 
     if (!articles || articles.length === 0) {
         return <div className="text-center py-8">Belum ada berita</div>;
