@@ -1,6 +1,6 @@
 "use server"
 
-import { NEWS_API_KEY } from "@/lib/env";
+import { NEWS_API_KEY, NEWS_ENDPOINT } from "@/lib/env";
 import { Article, NewsResponse } from "@/types/news";
 
 if (!NEWS_API_KEY) {
@@ -13,9 +13,10 @@ export async function getNews(page: number): Promise<{ articles: Article[]; tota
         apiKey: NEWS_API_KEY,
         page: page.toString(),
         pageSize: "10",
+        language: "en",
     });
 
-    const res = await fetch(`https://newsapi.org/v2/everything?${queryParams}`);
+    const res = await fetch(`${NEWS_ENDPOINT}everything?${queryParams}`);
 
     if (!res.ok) {
         throw new Error(`Failed to fetch news: ${res.status} ${res.statusText}`);
@@ -33,7 +34,7 @@ export async function getTopHeadlines(): Promise<Article[]> {
         language: "en",
     });
 
-    const res = await fetch(`https://newsapi.org/v2/top-headlines?${queryParams}`);
+    const res = await fetch(`${NEWS_ENDPOINT}top-headlines?${queryParams}`);
 
     if (!res.ok) {
         throw new Error(`Failed to fetch top headlines: ${res.status} ${res.statusText}`);
@@ -50,7 +51,7 @@ export async function getSourcesByCategory(category: string): Promise<Article[]>
         language: "en",
     });
 
-    const res = await fetch(`https://newsapi.org/v2/top-headlines?${queryParams}`);
+    const res = await fetch(`${NEWS_ENDPOINT}top-headlines?${queryParams}`);
 
     if (!res.ok) {
         throw new Error(`Failed to fetch top headlines: ${res.status} ${res.statusText}`);
