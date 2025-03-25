@@ -12,7 +12,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { BiCategoryAlt } from "react-icons/bi";
 
 const Navbar = () => {
@@ -113,6 +113,8 @@ const Navbar = () => {
                             <span className="sr-only">Toggle menu</span>
                         </Button>
                     </SheetTrigger>
+
+                    <SheetTitle></SheetTitle>
                     <SheetContent side="right" className="w-[250px] sm:w-[300px]">
                         <div className="flex flex-col gap-8 mt-8">
                             <NavLinks />

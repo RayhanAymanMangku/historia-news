@@ -4,21 +4,14 @@ import { getSourcesByCategory } from '@/services/news.service';
 import { Suspense } from 'react';
 import { FaNewspaper } from 'react-icons/fa6';
 
-interface PageProps {
-    params: {
-        category: string;
-    };
-}
-
-const NewsByCategoryPage = async ({ params }: PageProps) => {
-    const { category } = await Promise.resolve(params);
+const NewsByCategoryPage = async ({ params }: { params: Promise<{ category: string }> }) => {
+    const { category } = await params; // Await the params object
 
     if (!category) {
         return <div className="text-center py-8">Category not found</div>;
     }
 
     const articles = await getSourcesByCategory(category);
-
 
     if (!articles || articles.length === 0) {
         return <div className="text-center py-8">Belum ada berita</div>;

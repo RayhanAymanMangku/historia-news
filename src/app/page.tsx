@@ -1,19 +1,50 @@
+"use client";
+
 import NewsContentCard from "@/components/content/NewsContent";
 import PaginationControls from "@/components/custom/PaginationControls";
 import SearchComponent from "@/components/custom/SearchNews";
 import { getNews } from "@/services/news.service";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaNewspaper } from "react-icons/fa6";
+import { useSearchParams } from "next/navigation";
+import { Article } from "@/types/news";
+import Loading from "./loading";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const params = await Promise.resolve(searchParams);
-  const page = Number(params.page) || 1;
+export default function Home() {
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
 
-  const { articles, totalResults } = await getNews(page);
+  const [articles, setArticles] = useState<Article[]>([]);
+  const [totalResults, setTotalResults] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        setLoading(true);
+        const { articles, totalResults } = await getNews(page);
+        setArticles(articles);
+        setTotalResults(totalResults);
+      } catch (err) {
+        console.error("Error fetching news:", err);
+        setError("Failed to fetch news");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchNews();
+  }, [page]);
+
+  // tanpa suspense karena csr
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <div className="text-center py-8 text-red-500">{error}</div>;
+  }
 
   if (!articles || articles.length === 0) {
     return <div className="text-center py-8">No news yet</div>;
@@ -32,6 +63,7 @@ export default async function Home({
           </div>
         </div>
         <div className="grid lg:grid-cols-3 items-center justify-center gap-8">
+
           {articles.map((article) => (
             <NewsContentCard
               key={`${article.url}-${article.publishedAt}`}
@@ -47,7 +79,7 @@ export default async function Home({
         </div>
         <PaginationControls
           currentPage={page}
-          totalPages={Math.ceil(totalResults / 10)} // Ensure totalPages is rounded up
+          totalPages={Math.ceil(totalResults / 10)}
         />
       </main>
     </>
